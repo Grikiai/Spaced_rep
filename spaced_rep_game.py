@@ -16,17 +16,12 @@ class GameDay:
     Scheduled = int(self.dateNow.strftime('%j'))-int(self.startDate.strftime('%j'))+1
     box_seq = DateScheduling[Scheduled-1]
     return box_seq
-  
-  def progress(self):
-    
 
 dates = open ( 'log.txt',"r" )
 DateList = dates.readlines()
 dates.close()
 startdate = DateList[0]
 datenow = DateList[-1]
-
-
 
 # sudedu 1, 2 ir 3 i zodynus
 zodziai1 = open('level_1.txt', 'r')
@@ -91,10 +86,8 @@ class Card:
           print('sorry, you dont have lives anymore')
         elif yes_no.lower().strip() != 'n' or yes_no.lower().strip() != 'y':
           print('please write y/n only')
-          self.do_you_want_to_die()
+          self.do_you_want_to_die()      
           
-        
-  
 class Box:
   def __init__(self, card):
      self.card = card
@@ -104,6 +97,9 @@ class Box:
       y = first_box[key]
       z = Card(y, key)
       z.ask_in_polish()
+      if self.correct == True:
+        second_box[key] = y
+        del(first_box[key])
       
   def get_second_box(self):
     for key in second_box.keys():
@@ -130,16 +126,60 @@ class Box:
   
 new_game = GameDay(startdate, datenow)
 
-if new_game.get_day()%3 == 0 and new_game.get_day()%2 == 0:
+if new_game.get_day()%1==0:
+  begin_playing = Box()
+  begin_playing.get_first_box()
   
-elif new_game.get_day()%2 == 0
-
-elif new_game.get_day()%3 == 0:
+  if new_game.get_day()%3 == 0 and new_game.get_day()%2 == 0:
+    begin_playing.get_second_box()
+    begin_playing.get_third_box()
   
-    # sudedu 1, 2 ir 3 i zodynus
+  elif new_game.get_day()%2 == 0:
+    begin_playing.get_second_box()
     
-    # reikia dar duoti user inputa
-    # apkeist dezes
-    # irasyti dezes i failus atgal
+  elif new_game.get_day()%3 == 0:
+    begin_playing.get_third_box()
+    
+else:
+  print('this aint possible, i should have tried try and except method but im too lazy rn')
+# irasyti dezes i listus, failus atgal
+list1 = []  
+for key in first_box.keys():
+  words1 = key+' - '+first_box[key]
+  list1.append(words1)
+  
+list2 = []
+for key in second_box.keys():
+  words2 = key+' - '+second_box[key]
+  list2.append(words2)
+  
+list3 = []
+for key in third_box.keys():
+  words3 = key+' - '+third_box[key]
+  list3.append(words3)
+  
+file_rewrite1 = open('level_1.txt', 'w')
+for i in list1:
+  file_rewrite1.write(i+''\n')
+file_rewrite1.close()
+
+file_rewrite2 = open('level_2.txt', 'w')
+for i in list2:
+  file_rewrite2.write(i+''\n')
+file_rewrite2.close()
+
+file_rewrite3 = open('level_3.txt', 'w')
+for i in list3:
+  file_rewrite3.write(i+''\n')
+file_rewrite3.close()
+
+def oveall_progress():
+  precent = str((answered_questions/correctly_answered_questions)*100)
+  progress = open ( 'log.txt',"a" )
+  progress.write(precent)
+  dates.close()
+      
+print('this is the end of the game!!!!!!!!!! do you want to see your progress?y/n')  
+
     # gal dar sekti progresa??
    
