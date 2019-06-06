@@ -6,6 +6,7 @@ log.write(inDate)
 log.close()
 answered_questions = 0
 correctly_answered_questions = 0
+
 class GameDay:
   def __init__(self, startdate, datenow, ):
     self.startdate = startdate
@@ -19,14 +20,13 @@ class GameDay:
   def progress(self):
     
 
-# datos kintamasis
 dates = open ( 'log.txt',"r" )
 DateList = dates.readlines()
 dates.close()
 startdate = DateList[0]
 datenow = DateList[-1]
 
-x = GameDay(startdate, datenow)
+
 
 # sudedu 1, 2 ir 3 i zodynus
 zodziai1 = open('level_1.txt', 'r')
@@ -128,12 +128,13 @@ class Box:
       elif self.correct == True:
         continue
   
+new_game = GameDay(startdate, datenow)
 
-if x.get_day()%3 == 0 and x.get_day()%2 == 0:
+if new_game.get_day()%3 == 0 and new_game.get_day()%2 == 0:
   
-elif x.get_day()%2 == 0
+elif new_game.get_day()%2 == 0
 
-elif x.get_day()%3 == 0:
+elif new_game.get_day()%3 == 0:
   
     # sudedu 1, 2 ir 3 i zodynus
     
