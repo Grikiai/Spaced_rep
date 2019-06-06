@@ -44,13 +44,21 @@ for i in Wordlist2:
     
 zodziai3 = open('level_3.txt', 'r')
 Wordlist3 = zodziai3.readlines()
-zodziai2.close()
+zodziai3.close()
 third_box = {}
 for i in Wordlist3:
   key = i.split('-')[0].strip()
   if key not in third_box:
     third_box[key] = i.split('-')[1].strip()  
-      
+    
+zodziai4 = open('level_4.txt', 'r')
+Wordlist4 = zodziai4.readlines()
+zodziai4.close()
+fourth_box = {}
+for i in Wordlist4:
+  key = i.split('-')[0].strip()
+  if key not in fourth_box:
+    fourth_box[key] = i.split('-')[1].strip()       
       
 class Card:
   Lives = 5
@@ -118,13 +126,25 @@ class Box:
         del(second_box[key])
         
   def get_third_box(self):  
-    for key in second_box.keys():
+    for key in third_box.keys():
       y = third_box[key]
       z = Card(y, key)
       z.ask_in_polish()
       if self.correct == False:
         first_box[key] = y
         del(third_box[key])
+      elif self.correct == True:
+        fourth_box[key] = y
+        del(third_box[key])
+        
+    def get_fourth_box(self):  
+    for key in fourth_box.keys():
+      y = fourth_box[key]
+      z = Card(y, key)
+      z.ask_in_polish()
+      if self.correct == False:
+        first_box[key] = y
+        del(fourth_box[key])
       elif self.correct == True:
         continue
   
@@ -134,10 +154,19 @@ if new_game.get_day()%1==0:
   begin_playing = Box()
   begin_playing.get_first_box()
   
-  if new_game.get_day()%3 == 0 and new_game.get_day()%2 == 0:
+  if new_game.get_day()%2 == 0 and new_game.get_day()%3 == 0 and new_game.get_day()%4 == 0:
+    begin_playing.get_second_box()
+    begin_playing.get_third_box()
+    begin_playing.get_fourth_box()
+    
+  elif new_game.get_day()%2 == 0 and new_game.get_day()%3 == 0:
     begin_playing.get_second_box()
     begin_playing.get_third_box()
   
+  elif new_game.get_day()%2 == 0 and new_game.get_day()%4 == 0:
+    begin_playing.get_second_box()
+    begin_playing.get_fourth_box()
+    
   elif new_game.get_day()%2 == 0:
     begin_playing.get_second_box()
     
@@ -161,6 +190,11 @@ list3 = []
 for key in third_box.keys():
   words3 = key+' - '+third_box[key]
   list3.append(words3)
+
+list4 = []
+for key in fourth_box.keys():
+  words4 = key+' - '+fourth_box[key]
+  list4.append(words4)
   
 file_rewrite1 = open('level_1.txt', 'w')
 for i in list1:
@@ -176,6 +210,11 @@ file_rewrite3 = open('level_3.txt', 'w')
 for i in list3:
   file_rewrite3.write(i+'\n')
 file_rewrite3.close()
+
+file_rewrite4 = open('level_4.txt', 'w')
+for i in list4:
+  file_rewrite4.write(i+'\n')
+file_rewrite4.close()
 
 def overall_progress():
   precent = str((answered_questions/correctly_answered_questions)*100)
