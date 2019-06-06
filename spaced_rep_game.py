@@ -219,15 +219,13 @@ file_rewrite4.close()
 def overall_progress():
   precent = str((answered_questions/correctly_answered_questions)*100)
   progress = open ( 'progress.txt',"a" )
-  logbook = open('log.txt', r)
-  for line in logbook.readlines():
+  for line in progress.readlines():
     if '%' in line:
       continue
     else:
-      one_record = 'on '+logbook.readline()+'your answered '+ precent+'% correctly'
+      one_record = 'on '+ datenow +'your answered '+ precent+'% correctly'
       progress.write(one_record)
   progress.close()
-  logbook.close()
 overall_progress()
 
 print('this is the end of the game!!!!!!!!!! ')
@@ -236,7 +234,18 @@ def please_say_no_im_so_tired():
   yes_no2 = input()
   try:
     if yes_no2.lower().strip() = 'n':
-      exit
+      yes_no3 =input('do you want to exit?')
+      
+      def why_do_you_do_this():
+        if yes_no3.lower().strip() = 'y':
+          exit
+        elif yes_no2.lower().strip() = 'n':
+          print('ok cool still bye')
+        else:
+          print('only y/n allowed!!!!')
+          why_do_you_do_this()
+      why_do_you_do_this()
+      
     elif yes_no2.lower().strip() = 'y':
       output_progress = open('progress.txt', 'r')
       print(output_progress.read())
