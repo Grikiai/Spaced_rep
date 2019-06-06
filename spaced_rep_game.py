@@ -58,6 +58,7 @@ for i in Wordlist3:
       
       
 class Card:
+  Lives = 5
   def __init__(self, pol, ltu, correct = False):
     self.lenkiskai = pol
     self.lietuviskai = ltu
@@ -68,11 +69,31 @@ class Card:
     answer = input()
     if answer.lower() == self.lietuviskai:
       self.correct == True
-      answered_questions += 0
-      correctly_answered_questions += 0
+      answered_questions += 1
+      correctly_answered_questions += 1
+      print('Well done! You guessed correctly!!!!!!')
     else:
       self.correct == False
-      answered_questions += 0
+      print(':((((((((((((((((((( do you want to try again(y/n)? it will cost you one live thanks')
+      self.do_you_want_to_die()
+      
+  def do_you_want_to_die(self):
+      yes_no = input()
+      try:
+        if yes_no.lower().strip() == 'n':
+          answered_questions += 1
+          continue
+        elif yes_no.lower().strip() == 'y' and Lives>0:
+          Lives -=1
+          self.ask_in_polish()
+      except:
+        if Lives<=0:
+          print('sorry, you dont have lives anymore')
+        elif yes_no.lower().strip() != 'n' or yes_no.lower().strip() != 'y':
+          print('please write y/n only')
+          self.do_you_want_to_die()
+          
+        
   
 class Box:
   def __init__(self, card):
