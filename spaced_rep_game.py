@@ -230,17 +230,21 @@ def overall_progress():
   logbook.close()
 overall_progress()
 
-print('this is the end of the game!!!!!!!!!! do you want to see your progress?y/n')  
-yes_no2 = input()
-try:
-  if yes_no2.lower().strip() = 'n':
-    exit
-  elif yes_no2.lower().strip() = 'y':
-    output_progress = open('progress.txt', 'r')
-    print(output_progress.read())
-    output_progress.close
-except:
-  print('only y/n allowed!')
+print('this is the end of the game!!!!!!!!!! ')
+print('do you want to see your progress?y/n') 
+def please_say_no_im_so_tired():
+  yes_no2 = input()
+  try:
+    if yes_no2.lower().strip() = 'n':
+      exit
+    elif yes_no2.lower().strip() = 'y':
+      output_progress = open('progress.txt', 'r')
+      print(output_progress.read())
+      output_progress.close
+  except:
+    print('only y/n allowed!')
+    please_say_no_im_so_tired()
+    
   
 
        
