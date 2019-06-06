@@ -8,7 +8,7 @@ answered_questions = 0
 correctly_answered_questions = 0
 
 class GameDay:
-  def __init__(self, startdate, datenow, ):
+  def __init__(self, startdate, datenow):
     self.startdate = startdate
     self.datenow = datenow
     
@@ -69,11 +69,11 @@ class Card:
       print('Well done! You guessed correctly!!!!!!')
     else:
       self.correct == False
-      print(':((((((((((((((((((( do you want to try again(y/n)? it will cost you one live thanks')
+      print(':((((((((((((((((((( you answered incorrectly')
       self.do_you_want_to_die()
       
   def do_you_want_to_die(self):
-      yes_no = input()
+      yes_no = input('do you want to try again(y/n)? it will cost you one live thanks')
       try:
         if yes_no.lower().strip() == 'n':
           answered_questions += 1
@@ -82,11 +82,15 @@ class Card:
           Lives -=1
           self.ask_in_polish()
       except:
-        if Lives<=0:
-          print('sorry, you dont have lives anymore')
-        elif yes_no.lower().strip() != 'n' or yes_no.lower().strip() != 'y':
-          print('please write y/n only')
-          self.do_you_want_to_die()      
+        try:
+          if Lives<=0:
+            print('sorry, you dont have lives anymore')
+          elif yes_no.lower().strip() != 'n' or yes_no.lower().strip() != 'y':
+            print('please write y/n only')
+            self.do_you_want_to_die()
+        except:
+          print('only y/n allowed!')
+          self.do_you_want_to_die()
           
 class Box:
   def __init__(self, card):
@@ -160,26 +164,45 @@ for key in third_box.keys():
   
 file_rewrite1 = open('level_1.txt', 'w')
 for i in list1:
-  file_rewrite1.write(i+''\n')
+  file_rewrite1.write(i+'\n')
 file_rewrite1.close()
 
 file_rewrite2 = open('level_2.txt', 'w')
 for i in list2:
-  file_rewrite2.write(i+''\n')
+  file_rewrite2.write(i+'\n')
 file_rewrite2.close()
 
 file_rewrite3 = open('level_3.txt', 'w')
 for i in list3:
-  file_rewrite3.write(i+''\n')
+  file_rewrite3.write(i+'\n')
 file_rewrite3.close()
 
-def oveall_progress():
+def overall_progress():
   precent = str((answered_questions/correctly_answered_questions)*100)
-  progress = open ( 'log.txt',"a" )
-  progress.write(precent)
-  dates.close()
-      
-print('this is the end of the game!!!!!!!!!! do you want to see your progress?y/n')  
+  progress = open ( 'progress.txt',"a" )
+  logbook = open('log.txt', r)
+  for line in logbook.readlines():
+    if '%' in line:
+      continue
+    else:
+      one_record = 'on '+logbook.readline()+'your answered '+ precent+'% correctly'
+      progress.write(one_record)
+  progress.close()
+  logbook.close()
+overall_progress()
 
-    # gal dar sekti progresa??
-   
+print('this is the end of the game!!!!!!!!!! do you want to see your progress?y/n')  
+yes_no2 = input()
+try:
+  if yes_no2.lower().strip() = 'n':
+    exit
+  elif yes_no2.lower().strip() = 'y':
+    output_progress = open('progress.txt', 'r')
+    print(output_progress.read())
+    output_progress.close
+except:
+  print('only y/n allowed!')
+  
+
+       
+
