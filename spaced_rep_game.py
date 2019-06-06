@@ -4,9 +4,10 @@ inDate = datetime.datetime.now()
 log = open('log.txt', 'a')
 log.write(inDate)
 log.close()
-
+answered_questions = 0
+correctly_answered_questions = 0
 class GameDay:
-  def __init__(self, startdate, datenow):
+  def __init__(self, startdate, datenow, ):
     self.startdate = startdate
     self.datenow = datenow
     
@@ -14,6 +15,9 @@ class GameDay:
     Scheduled = int(self.dateNow.strftime('%j'))-int(self.startDate.strftime('%j'))+1
     box_seq = DateScheduling[Scheduled-1]
     return box_seq
+  
+  def progress(self):
+    
 
 # datos kintamasis
 dates = open ( 'log.txt',"r" )
@@ -54,7 +58,7 @@ for i in Wordlist3:
       
       
 class Card:
-  def __init__(self, pol, ltu, correct = True):
+  def __init__(self, pol, ltu, correct = False):
     self.lenkiskai = pol
     self.lietuviskai = ltu
     self.correct = correct
@@ -64,18 +68,45 @@ class Card:
     answer = input()
     if answer.lower() == self.lietuviskai:
       self.correct == True
+      answered_questions += 0
+      correctly_answered_questions += 0
     else:
       self.correct == False
+      answered_questions += 0
   
 class Box:
-  def __init__(self):
-  
+  def __init__(self, card):
+     self.card = card
+      
   def get_first_box(self):
-    
+    for key in first_box.keys():
+      y = first_box[key]
+      z = Card(y, key)
+      z.ask_in_polish()
+      
   def get_second_box(self):
-    
+    for key in second_box.keys():
+      y = second_box[key]
+      z = Card(y, key)
+      z.ask_in_polish()
+      if self.correct == False:
+        first_box[key] = y
+        del(second_box[key])
+      elif self.correct == True:
+        third_box[key] = y
+        del(second_box[key])
+        
   def get_third_box(self):  
-
+    for key in second_box.keys():
+      y = third_box[key]
+      z = Card(y, key)
+      z.ask_in_polish()
+      if self.correct == False:
+        first_box[key] = y
+        del(third_box[key])
+      elif self.correct == True:
+        continue
+  
 
 if x.get_day()%3 == 0 and x.get_day()%2 == 0:
   
@@ -88,5 +119,5 @@ elif x.get_day()%3 == 0:
     # reikia dar duoti user inputa
     # apkeist dezes
     # irasyti dezes i failus atgal
-    
+    # gal dar sekti progresa??
    
