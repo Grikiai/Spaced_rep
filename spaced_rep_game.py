@@ -1,29 +1,13 @@
-# suloginu
-import datetime
-inDate = datetime.datetime.now()
-log = open('log.txt', 'a')
-log.write(inDate)
+
+log = open('log.txt', 'r')
+logs = log.readlines()
 log.close()
-answered_questions = 0
-correctly_answered_questions = 0
+date_now = len(logs)+1
 
-class GameDay:
-  def __init__(self, startdate, datenow):
-    self.startdate = startdate
-    self.datenow = datenow
-    
-  def get_day(self):
-    Scheduled = int(self.dateNow.strftime('%j'))-int(self.startDate.strftime('%j'))+1
-    box_seq = DateScheduling[Scheduled-1]
-    return box_seq
+log = open('log.txt', 'a')
+logs = log.write(str(date_now)+' is the number of current session\n')
+log.close()
 
-dates = open ( 'log.txt',"r" )
-DateList = dates.readlines()
-dates.close()
-startdate = DateList[0]
-datenow = DateList[-1]
-
-# sudedu 1, 2 ir 3 i zodynus
 zodziai1 = open('level_1.txt', 'r')
 Wordlist1 = zodziai1.readlines()
 zodziai1.close()
@@ -32,7 +16,7 @@ for i in Wordlist1:
   key = i.split('-')[0].strip()
   if key not in first_box:
     first_box[key] = i.split('-')[1].strip()
-    
+
 zodziai2 = open('level_2.txt', 'r')
 Wordlist2 = zodziai2.readlines()
 zodziai2.close()
@@ -41,7 +25,7 @@ for i in Wordlist2:
   key = i.split('-')[0].strip()
   if key not in second_box:
     second_box[key] = i.split('-')[1].strip()
-    
+
 zodziai3 = open('level_3.txt', 'r')
 Wordlist3 = zodziai3.readlines()
 zodziai3.close()
@@ -49,8 +33,8 @@ third_box = {}
 for i in Wordlist3:
   key = i.split('-')[0].strip()
   if key not in third_box:
-    third_box[key] = i.split('-')[1].strip()  
-    
+    third_box[key] = i.split('-')[1].strip()
+
 zodziai4 = open('level_4.txt', 'r')
 Wordlist4 = zodziai4.readlines()
 zodziai4.close()
@@ -58,203 +42,214 @@ fourth_box = {}
 for i in Wordlist4:
   key = i.split('-')[0].strip()
   if key not in fourth_box:
-    fourth_box[key] = i.split('-')[1].strip()       
-      
-class Card:
+    fourth_box[key] = i.split('-')[1].strip()
+
+class GameDay:
   Lives = 5
-  def __init__(self, pol, ltu, correct = False):
+  def __init__(self, date_now, answered_questions = 0, correctly_answered_questions = 0):
+    self.date_now = date_now
+    self.answered_questions = answered_questions
+    self.correctly_answered_questions = correctly_answered_questions
+
+  def get_day(self):
+      return date_now
+
+  def get_progress(self):
+      progress = (self.correctly_answered_questions/self.answered_questions)*100
+      return progress
+
+  def exit_or_no(self):
+    yes_no3 = input('do you want to exit?y/n\n')
+    if yes_no3.lower().strip() == 'y':
+      exit
+    elif yes_no2.lower().strip() == 'n':
+      print('ok cool still bye')
+
+  def please_say_no_im_so_tired(self):
+       print('do you want to see your progress?y/n\n')
+       yes_no2 = input()
+       if yes_no2.lower().strip() == 'n':
+           new_game.exit_or_no()
+
+       elif yes_no2.lower().strip() == 'y':
+         output_progress = open('progress.txt', 'r')
+         print(output_progress.read())
+         output_progress.close()
+
+class Card:
+  def __init__(self, pol, ltu, correct = True):
     self.lenkiskai = pol
     self.lietuviskai = ltu
     self.correct = correct
-    
+
   def ask_in_polish(self):
-    print('Whats Lithuanian for '+ self.lenkiskai+ '?')
+    print('Whats Lithuanian for '+ self.lenkiskai+ '?\n')
     answer = input()
     if answer.lower() == self.lietuviskai:
       self.correct == True
-      answered_questions += 1
-      correctly_answered_questions += 1
-      print('Well done! You guessed correctly!!!!!!')
+      new_game.answered_questions += 1
+      new_game.correctly_answered_questions += 1
+      print('Well done! You guessed correctly!!!!!!\n')
     else:
       self.correct == False
-      print(':((((((((((((((((((( you answered incorrectly')
-      self.do_you_want_to_die()
-      
-  def do_you_want_to_die(self):
-      yes_no = input('do you want to try again(y/n)? it will cost you one live thanks')
-      try:
-        if yes_no.lower().strip() == 'n':
-          answered_questions += 1
-          continue
-        elif yes_no.lower().strip() == 'y' and Lives>0:
-          Lives -=1
-          self.ask_in_polish()
-      except:
-        try:
-          if Lives<=0:
-            print('sorry, you dont have lives anymore')
-          elif yes_no.lower().strip() != 'n' or yes_no.lower().strip() != 'y':
-            print('please write y/n only')
-            self.do_you_want_to_die()
-        except:
-          print('only y/n allowed!')
-          self.do_you_want_to_die()
-          
+      print(':((((((((((((((((((( you answered incorrectly\n')
+
+
 class Box:
   def __init__(self, card):
      self.card = card
-      
+
   def get_first_box(self):
     for key in first_box.keys():
       y = first_box[key]
-      z = Card(y, key)
+      z = Card(key, y)
       z.ask_in_polish()
-      if self.correct == True:
-        second_box[key] = y
-        del(first_box[key])
-      
+      temp = ' - '.join([key, first_box[key]])
+      if z.correct == True:
+        file_rewrite = open('level_2.txt', 'a')
+        temp = [key, first_box[key]]
+        file_rewrite.write(temp+'\n')
+        file_rewrite.close()
+        file_rewrite = open('level_1.txt', 'r+')
+        lines = file_rewrite.readlines()
+        file_rewrite.seek(0)
+        for i in lines:
+            if i.split('-')[0].strip() != key:
+                file_rewrite.write(i)
+        file_rewrite.close()
+
   def get_second_box(self):
     for key in second_box.keys():
       y = second_box[key]
-      z = Card(y, key)
+      z = Card(key, y)
       z.ask_in_polish()
-      if self.correct == False:
-        first_box[key] = y
-        del(second_box[key])
-      elif self.correct == True:
-        third_box[key] = y
-        del(second_box[key])
-        
-  def get_third_box(self):  
+      temp = ' - '.join([key, second_box[key]])
+      if z.correct == False:
+        file_rewrite = open('level_1.txt', 'a')
+        file_rewrite.write(temp+'\n')
+        file_rewrite.close()
+        file_rewrite = open('level_2.txt', 'r+')
+        lines = file_rewrite.readlines()
+        file_rewrite.seek(0)
+        for i in lines:
+            if i.split('-')[0].strip() != key:
+                file_rewrite.write(i)
+        file_rewrite.close()
+
+      elif z.correct == True:
+        file_rewrite = open('level_3.txt', 'a')
+        file_rewrite.write(temp+'\n')
+        file_rewrite.close()
+        file_rewrite = open('level_2.txt', 'r+')
+        lines = file_rewrite.readlines()
+        file_rewrite.seek(0)
+        for i in lines:
+            if i.split('-')[0].strip() != key:
+                file_rewrite.write(i)
+        file_rewrite.close()
+
+  def get_third_box(self):
     for key in third_box.keys():
       y = third_box[key]
-      z = Card(y, key)
+      z = Card(key, y)
       z.ask_in_polish()
-      if self.correct == False:
-        first_box[key] = y
-        del(third_box[key])
+      temp = ' - '.join([key, third_box[key]])
+      if z.correct == False:
+        file_rewrite = open('level_1.txt', 'a')
+        file_rewrite5.write(temp+'\n')
+        file_rewrite5.close()
+        file_rewrite = open('level_3.txt', 'r+')
+        lines = file_rewrite.readlines()
+        file_rewrite.seek(0)
+        for i in lines:
+            if i.split('-')[0].strip() != key:
+                file_rewrite.write(i)
+        file_rewrite.close()
+
       elif self.correct == True:
-        fourth_box[key] = y
-        del(third_box[key])
-        
-    def get_fourth_box(self):  
-    for key in fourth_box.keys():
-      y = fourth_box[key]
-      z = Card(y, key)
-      z.ask_in_polish()
-      if self.correct == False:
-        first_box[key] = y
-        del(fourth_box[key])
-      elif self.correct == True:
-        continue
-  
-new_game = GameDay(startdate, datenow)
+        file_rewrite3 = open('level_4.txt', 'a')
+        file_rewrite3.write(' - '.join(temp)+'\n')
+        file_rewrite3.close()
+        file_rewrite = open('level_3.txt', 'r+')
+        lines = file_rewrite.readlines()
+        file_rewrite.seek(0)
+        for i in lines:
+            if i.split('-')[0].strip() != key:
+                file_rewrite.write(i)
+        file_rewrite.close()
+
+    def get_fourth_box(self):
+      for key in fourth_box.keys():
+        y = fourth_box[key]
+        z = Card(key, y)
+        z.ask_in_polish()
+        temp = ' - '.join([key, fourth_box[key]])
+        if z.correct == False:
+          file_rewrite = open('level_1.txt', 'a')
+          file_rewrite.write(temp+'\n')
+          file_rewrite.close()
+          file_rewrite = open('level_4.txt', 'r+')
+          lines = file_rewrite.readlines()
+          file_rewrite.seek(0)
+          for i in lines:
+              if i.split('-')[0].strip() != key:
+                  file_rewrite.write(i)
+          file_rewrite.close()
+        elif self.correct == True:
+          continue
+
+new_game = GameDay(date_now)
 
 if new_game.get_day()%1==0:
-  begin_playing = Box()
+  begin_playing = Box(first_box)
   begin_playing.get_first_box()
-  
+
+
   if new_game.get_day()%2 == 0 and new_game.get_day()%3 == 0 and new_game.get_day()%4 == 0:
+    begin_playing = Box(second_box)
     begin_playing.get_second_box()
+    begin_playing = Box(third_box)
     begin_playing.get_third_box()
+    begin_playing = Box(fourth_box)
     begin_playing.get_fourth_box()
-    
+
   elif new_game.get_day()%2 == 0 and new_game.get_day()%3 == 0:
+    begin_playing = Box(second_box)
     begin_playing.get_second_box()
+    begin_playing = Box(third_box)
     begin_playing.get_third_box()
-  
+
   elif new_game.get_day()%2 == 0 and new_game.get_day()%4 == 0:
+    begin_playing = Box(second_box)
     begin_playing.get_second_box()
+    begin_playing = Box(fourth_box)
     begin_playing.get_fourth_box()
-    
+
   elif new_game.get_day()%2 == 0:
+    begin_playing = Box(second_box)
     begin_playing.get_second_box()
-    
+
   elif new_game.get_day()%3 == 0:
+    begin_playing = Box(third_box)
     begin_playing.get_third_box()
-    
+
 else:
   print('this aint possible, i should have tried try and except method but im too lazy rn')
 # irasyti dezes i listus, failus atgal
-list1 = []  
-for key in first_box.keys():
-  words1 = key+' - '+first_box[key]
-  list1.append(words1)
-  
-list2 = []
-for key in second_box.keys():
-  words2 = key+' - '+second_box[key]
-  list2.append(words2)
-  
-list3 = []
-for key in third_box.keys():
-  words3 = key+' - '+third_box[key]
-  list3.append(words3)
-
-list4 = []
-for key in fourth_box.keys():
-  words4 = key+' - '+fourth_box[key]
-  list4.append(words4)
-  
-file_rewrite1 = open('level_1.txt', 'w')
-for i in list1:
-  file_rewrite1.write(i+'\n')
-file_rewrite1.close()
-
-file_rewrite2 = open('level_2.txt', 'w')
-for i in list2:
-  file_rewrite2.write(i+'\n')
-file_rewrite2.close()
-
-file_rewrite3 = open('level_3.txt', 'w')
-for i in list3:
-  file_rewrite3.write(i+'\n')
-file_rewrite3.close()
-
-file_rewrite4 = open('level_4.txt', 'w')
-for i in list4:
-  file_rewrite4.write(i+'\n')
-file_rewrite4.close()
-
 def overall_progress():
-  precent = str((answered_questions/correctly_answered_questions)*100)
   progress = open ( 'progress.txt',"a" )
   for line in progress.readlines():
     if '%' in line:
       continue
     else:
-      one_record = 'on '+ datenow +'your answered '+ precent+'% correctly'
+      one_record = 'on '+ date_now +' session your answered '+ str(new_game.get_progress()) +'% correctly'
       progress.write(one_record)
   progress.close()
+
 overall_progress()
 
-print('this is the end of the game!!!!!!!!!! ')
-print('do you want to see your progress?y/n') 
-def please_say_no_im_so_tired():
-  yes_no2 = input()
-  try:
-    if yes_no2.lower().strip() = 'n':
-      yes_no3 =input('do you want to exit?')
-      
-      def why_do_you_do_this():
-        if yes_no3.lower().strip() = 'y':
-          exit
-        elif yes_no2.lower().strip() = 'n':
-          print('ok cool still bye')
-        else:
-          print('only y/n allowed!!!!')
-          why_do_you_do_this()
-      why_do_you_do_this()
-      
-    elif yes_no2.lower().strip() = 'y':
-      output_progress = open('progress.txt', 'r')
-      print(output_progress.read())
-      output_progress.close
-  except:
-    print('only y/n allowed!')
-    please_say_no_im_so_tired()
-    
-  
+print('this is the end of the game!!!!!!!!!!\n ')
 
-       
+new_game.please_say_no_im_so_tired()
 
+new_game.exit_or_no()
