@@ -1,19 +1,10 @@
 okno - langas
-
 samolot - lėktuvas
-
 samochód  - automobilis
-
 rower - dviratis
-
 ciężarówka - sunkvežimis
-
 statek - laivas
-
 pociąg - traukinys
-
 prom - keltas
-
 przewóz - vežimas
-
 motocykl - motociklas
