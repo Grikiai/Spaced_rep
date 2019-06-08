@@ -12,7 +12,7 @@ Asides from current code, there are 6 relevant files:
 - one file is required to log sessions(log.txt)
 - another one is required to log progress(progress.txt)
 
-## instalation and configuration
+## Instalation and configuration
 1. Download and extract files into a folder
 2. Make sure log.txt progress.txt are empty (if there aren't files with these names - dont worry! they will be automatically created when the code is running)
 3. Open file named spaced_rep.py through command line
