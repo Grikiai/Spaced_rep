@@ -1,4 +1,3 @@
-
 log = open('log.txt', 'r')
 logs = log.readlines()
 log.close()
@@ -45,14 +44,10 @@ for i in Wordlist4:
     fourth_box[key] = i.split('-')[1].strip()
 
 class GameDay:
-  Lives = 5
   def __init__(self, date_now, answered_questions = 0, correctly_answered_questions = 0):
     self.date_now = date_now
     self.answered_questions = answered_questions
     self.correctly_answered_questions = correctly_answered_questions
-
-  def get_day(self):
-      return date_now
 
   def get_progress(self):
       progress = (self.correctly_answered_questions/self.answered_questions)*100
@@ -65,7 +60,7 @@ class GameDay:
     elif yes_no2.lower().strip() == 'n':
       print('ok cool still bye')
 
-  def please_say_no_im_so_tired(self):
+  def progress_ask(self):
        print('do you want to see your progress?y/n\n')
        yes_no2 = input()
        if yes_no2.lower().strip() == 'n':
@@ -104,11 +99,10 @@ class Box:
       y = first_box[key]
       z = Card(key, y)
       z.ask_in_polish()
-      temp = ' - '.join([key, first_box[key]])
       if z.correct == True:
         file_rewrite = open('level_2.txt', 'a')
         temp = [key, first_box[key]]
-        file_rewrite.write(temp+'\n')
+        file_rewrite.write(' - '.join([key, y])+'\n')
         file_rewrite.close()
         file_rewrite = open('level_1.txt', 'r+')
         lines = file_rewrite.readlines()
@@ -200,12 +194,12 @@ class Box:
 
 new_game = GameDay(date_now)
 
-if new_game.get_day()%1==0:
+if new_game.date_now%1==0:
   begin_playing = Box(first_box)
   begin_playing.get_first_box()
 
 
-  if new_game.get_day()%2 == 0 and new_game.get_day()%3 == 0 and new_game.get_day()%4 == 0:
+  if new_game.date_now%2 == 0 and new_game.date_now%3 == 0 and new_game.date_now%4 == 0:
     begin_playing = Box(second_box)
     begin_playing.get_second_box()
     begin_playing = Box(third_box)
@@ -213,31 +207,29 @@ if new_game.get_day()%1==0:
     begin_playing = Box(fourth_box)
     begin_playing.get_fourth_box()
 
-  elif new_game.get_day()%2 == 0 and new_game.get_day()%3 == 0:
+  elif new_game.date_now%2 == 0 and new_game.date_now%3 == 0:
     begin_playing = Box(second_box)
     begin_playing.get_second_box()
     begin_playing = Box(third_box)
     begin_playing.get_third_box()
 
-  elif new_game.get_day()%2 == 0 and new_game.get_day()%4 == 0:
+  elif new_game.date_now%2 == 0 and new_game.date_now%4 == 0:
     begin_playing = Box(second_box)
     begin_playing.get_second_box()
     begin_playing = Box(fourth_box)
     begin_playing.get_fourth_box()
 
-  elif new_game.get_day()%2 == 0:
+  elif new_game.date_now%2 == 0:
     begin_playing = Box(second_box)
     begin_playing.get_second_box()
 
-  elif new_game.get_day()%3 == 0:
+  elif new_game.date_now%3 == 0:
     begin_playing = Box(third_box)
     begin_playing.get_third_box()
 
-else:
-  print('this aint possible, i should have tried try and except method but im too lazy rn')
-# irasyti dezes i listus, failus atgal
+
 def overall_progress():
-  progress = open ( 'progress.txt',"a" )
+  progress = open ( 'progress.txt',"a")
   for line in progress.readlines():
     if '%' in line:
       continue
@@ -250,6 +242,7 @@ overall_progress()
 
 print('this is the end of the game!!!!!!!!!!\n ')
 
-new_game.please_say_no_im_so_tired()
+new_game.progress_ask()
 
 new_game.exit_or_no()
+
