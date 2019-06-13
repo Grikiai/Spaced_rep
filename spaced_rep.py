@@ -140,11 +140,12 @@ class GameDay:
                     print(i)
     def intro(self):
         if self.date_now==1:
-            print('Welcome to spaced repetition based game! this particular version is created in order to learn polish-lithuanian word translations')
+            print('Welcome to spaced repetition based game! this particular version is created in order to learn pol-lt word pairs')
             print("There are four 'boxes' in this game, each of which are scheduled to be given at diferent session")
             print('The rules are such: every incorrect word is moved down to first box and every correct word is moved to subsequent box')
             print('You have 7 lives, also you can guess the word as many times as you like(sadly, that costs one life)')
-            print('The game is won when all boxes except fourth are empty (that means you know them all!)')
+            print('PLS NOTE: this game is sensitive to character - spell with lt character')
+            print('The game is won when all boxes except fourth are empty (that means you know them all!)')          
 
 class Card:
     def __init__(self, pol, ltu, correct = True):
