@@ -1,6 +1,6 @@
 okno - langas
 samolot - lėktuvas
-samochód  - automobilis
+samochód - automobilis
 rower - dviratis
 ciężarówka - sunkvežimis
 statek - laivas
