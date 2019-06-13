@@ -1,7 +1,7 @@
 log = open('log.txt', 'r')
 logs = log.readlines()
 log.close()
-date = len(logs)+1
+date = len(logs)
 
 log = open('log.txt', 'a')
 logs = log.write(str(date)+' is the number of latest session\n')
