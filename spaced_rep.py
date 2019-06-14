@@ -84,9 +84,7 @@ class GameDay:
     def progress_ask(self):
         print('do you want to see your progress?y/n\n')
         yes_no2 = input()
-        if yes_no2.lower().strip() == 'n':
-            self.exit_or_no()
-        elif yes_no2.lower().strip() == 'y':
+        if yes_no2.lower().strip() == 'y':
             output_progress = open('progress.txt', 'r', encoding = 'utf-8')
             print(output_progress.read())
             output_progress.close()
